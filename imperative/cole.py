@@ -76,6 +76,7 @@ t1 = {
         }
     ]
 }
+emptyTree = {}
 inputTree = t1
 
 
@@ -85,36 +86,46 @@ inputTree = t1
 #go to first unvisited child
 def DepthFirst(tree):
     print("Traversing Depth First Post-Order")
-    visited = set()
-    stack = [tree]
-    while(stack):
-        #add to the stack the first unvisited child
-        unVisited = False
-        stackTop = stack[-1]
-        for child in stackTop["children"]:
-            if child["val"] not in visited:
-                stack.append(child)
-                unVisited = True
-                break
-        #if there were no unvisited children, visit, pop
-        if not unVisited:
-            val = stack.pop()["val"]
-            print(val)
-            visited.add(val)
+    sequeunce = []
+    if tree:
+        visited = set()
+        stack = [tree]
+        while(stack):
+            #add to the stack the first unvisited child
+            unVisited = False
+            stackTop = stack[-1]
+            for child in stackTop["children"]:
+                if child["val"] not in visited:
+                    stack.append(child)
+                    unVisited = True
+                    break
+            #if there were no unvisited children, visit, pop
+            if not unVisited:
+                sequeunce.append(stack[-1]["val"])
+                val = stack.pop()["val"]
+                print(val)
+                visited.add(val)
+    return sequeunce
 
 def BreadthFirst(tree):
     print("Traversing Breadth First")
-    visited = set()
-    queue = [tree]
-    while queue:
-        #visit and remove
-        print(queue[0]["val"])
-        visited.add(queue[0]["val"])
-        #add children to queue
-        for child in queue[0]["children"]: queue.append(child)
-        queue.pop(0)
+    sequence = []
+    if tree:
+        visited = set()
+        queue = [tree]
+        while queue:
+            #visit and remove
+            sequence.append(queue[0]["val"])
+            print(queue[0]["val"])
+            visited.add(queue[0]["val"])
+            #add children to queue
+            for child in queue[0]["children"]: queue.append(child)
+            queue.pop(0)
+    return sequence
 
 
-DepthFirst(t1)
-BreadthFirst(t1)
+DFSequence = DepthFirst(inputTree)
+BFSequence = BFSequence = BreadthFirst(inputTree)
 
+print(DFSequence)
+print(BFSequence)
