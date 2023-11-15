@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Stack;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -36,5 +38,41 @@ public class App {
         for(int i = 0; i < 17; i++) {
             System.out.println("Finished creating tree" + nodes.get(i).getValue());
         }
+
+        ArrayList<Integer> DFSequence = depthFirstTraveral(nodes.get(0));
+        for(int i = 0; i < DFSequence.size(); i++) {
+            System.out.println(DFSequence.get(i));
+        }
     }
+
+    public static ArrayList<Integer> depthFirstTraveral(TreeNode<Integer> root) {
+        ArrayList<Integer> sequence = new ArrayList<>();
+
+        HashSet<TreeNode<Integer>> visited = new HashSet<>();
+        Stack<TreeNode<Integer>> stack = new Stack<>();
+        stack.push(root);
+
+        while(!stack.isEmpty()) {
+            boolean unvisited = false;
+
+            //iterate through children to see if there are any unvisited
+            ArrayList<TreeNode<Integer>> stackTopChildren = stack.peek().getChildren();
+            for(int i = 0; i < stackTopChildren.size(); i++) {
+                if(!visited.contains(stackTopChildren.get(i))) {
+                    stack.push(stackTopChildren.get(i));
+                    unvisited = true;
+                    break;
+                }
+            }
+
+            if(!unvisited) {
+                visited.add(stack.peek());
+                sequence.add(stack.pop().getValue());
+            }
+        }
+
+        return sequence;
+    }
+
+    
 }
