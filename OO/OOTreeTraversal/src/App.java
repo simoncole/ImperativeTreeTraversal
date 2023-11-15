@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class App {
@@ -35,13 +37,18 @@ public class App {
         
         nodes.get(11).addChild(nodes.get(16));
 
-        for(int i = 0; i < 17; i++) {
-            System.out.println("Finished creating tree" + nodes.get(i).getValue());
-        }
+        // for(int i = 0; i < 17; i++) {
+        //     System.out.println("Finished creating tree" + nodes.get(i).getValue());
+        // }
 
-        ArrayList<Integer> DFSequence = depthFirstTraveral(nodes.get(0));
-        for(int i = 0; i < DFSequence.size(); i++) {
-            System.out.println(DFSequence.get(i));
+        // ArrayList<Integer> DFSequence = depthFirstTraveral(nodes.get(0));
+        // for(int i = 0; i < DFSequence.size(); i++) {
+        //     System.out.println(DFSequence.get(i));
+        // }
+
+        ArrayList<Integer> BFSequence = breadthFirstTraversal(nodes.get(0));
+        for(int i = 0; i < BFSequence.size(); i++) {
+            System.out.println(BFSequence.get(i));
         }
     }
 
@@ -74,5 +81,28 @@ public class App {
         return sequence;
     }
 
-    
+    public static ArrayList<Integer> breadthFirstTraversal(TreeNode<Integer> root) {
+        ArrayList<Integer> sequence = new ArrayList<>();
+
+        HashSet<Integer> visited = new HashSet<>();
+
+        Queue<TreeNode<Integer>> queue = new LinkedList<>();
+        queue.add(root);
+
+        while(!queue.isEmpty()) {
+            //visit
+            visited.add(queue.peek().getValue());
+            sequence.add(queue.peek().getValue());
+
+            //add children to the queue
+            for(int i = 0; i < queue.peek().getChildren().size(); i++) {
+                queue.add(queue.peek().getChildren().get(i));
+            }
+
+            //remove
+            queue.poll();
+        }
+
+        return sequence;
+    }
 }
